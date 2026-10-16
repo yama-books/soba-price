@@ -4,8 +4,8 @@
 
 「江戸のそば1杯はいくら？」を入口にし、そばのない時代には米・布・塩・労働賃金等の記録を参照します。価格の記録と円換算上の推定を分けて表示し、原資料をたどれる設計とします。
 
-> **現在地：M0 基礎設計とデータ収集準備（2026-10-17）**
-> 仕様と調査候補を整理した段階です。歴史価格レコードの収集・個別検証、アプリ実装、CI、Web公開・実機検証はまだ行っていません。
+> **現在地：M0 基礎設計・史料予備調査（2026-10-17）**
+> 歴博DBの概要・検索入口を確認し、奈良・平安の価格・賃金につながる研究リード6件を登録しました。原史料への直接照合と歴史価格レコードの本格収集・検証、アプリ実装・CI・Web公開・実機検証は未実施です。
 
 ## はじめに読む文書
 
@@ -14,7 +14,9 @@
 | [docs/BASIC_DESIGN.md](docs/BASIC_DESIGN.md) | アプリの基本設計、データモデル、比較手法、品質基準 |
 | [docs/DATA_COLLECTION_PLAN.md](docs/DATA_COLLECTION_PLAN.md) | 歴博DB、CiNii、米価・為替統計の収集・照合計画 |
 | [docs/DATA_POLICY.md](docs/DATA_POLICY.md) | 出典と利用条件の確認、原資料・未検証データの扱い |
-| [sources/catalog.csv](sources/catalog.csv) | 初期の資料候補14件。価格観測値ではありません |
+| [sources/catalog.csv](sources/catalog.csv) | 出典候補16件。価格観測値ではありません |
+| [sources/price_leads.csv](sources/price_leads.csv) | 奈良・平安の価格・賃金の手掛かり6件。原史料未照合・アプリ表示不可 |
+| [docs/RESEARCH_LOG_20261017.md](docs/RESEARCH_LOG_20261017.md) | 2026-10-17の調査結果と残課題 |
 | [docs/STATUS.md](docs/STATUS.md) | 現在の作業状態と次の一手 |
 | [AGENTS.md](AGENTS.md) | ChatGPT・Codex・Claude Code等に共通の作業ルール |
 
@@ -28,10 +30,12 @@ soba-price/
 │   ├── BASIC_DESIGN.md
 │   ├── DATA_COLLECTION_PLAN.md
 │   ├── DATA_POLICY.md
-│   └── STATUS.md
+│   ├── STATUS.md
+│   └── RESEARCH_LOG_20261017.md
 ├── sources/
 │   ├── README.md
-│   └── catalog.csv
+│   ├── catalog.csv
+│   └── price_leads.csv
 ├── data/
 │   ├── verified/        # 許諾確認・史料照合済みの公開用データ
 │   └── derived/         # 為替・購買力の根拠付き計算結果
@@ -54,9 +58,9 @@ soba-price/
 
 ## 次に取り組むこと
 
-1. 歴博「古代・中世都市生活史（物価）」DBの利用条件と検索・書き出し方法を確認します。
+1. 歴博「古代・中世都市生活史（物価）」DBの**利用条件**と実際の検索・書き出し結果を確認します。
 2. 700〜1299年の年代別・品目別の実際の収録件数を調べます。
-3. 少数の個別レコードを原史料に照合し、権利確認済みの公開可能データに限って `data/verified/` に登録します。
+3. 研究リード6件と少数のDB明細を原史料に照合し、権利確認済みの公開可能データに限って `data/verified/` に登録します。
 4. 為替統計の取得・年平均・通貨建てを検証してから、換算機能の試作を始めます。
 
 正本GitHub：<https://github.com/yama-books/soba-price>
