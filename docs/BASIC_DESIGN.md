@@ -75,6 +75,8 @@
 - 平安時代「代表価格」は単独の数値で断定せず、日付・地域・記録種別を伴う事例を見せることを原則とする。
 
 ## 6. データモデル（最小限の関係テーブル）
+**出典保持上の注意**：歴博の公式説明で列挙されているダウンロード項目（10項目）には、独立した「史料名」「場所」欄が見当たらない。検索画面や各詳細表示から取得できるか検証し、得られない場合は該当出典・場所が未確定と記録する。ダウンロードファイルだけで一次史料への完全な追跡が可能だと仮定しない。
+
 ### `sources`
 `source_id`, `title`, `author_or_institution`, `publication_year`, `source_class`（原史料/史料翻刻/査読研究/公的統計/DB/その他）, `url_or_identifier`, `volume_page_folio`, `access_type`（公開/要登録/館内/紙のみ）, `usage_terms`, `retrieved_at`, `bibliographic_notes`。
 
