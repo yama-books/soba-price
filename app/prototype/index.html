@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f6f3ec">
+<title>soba / price | UI Prototype</title>
+<style>
+:root{color-scheme:light;--paper:#f6f3ec;--cream:#fffdf9;--ink:#243c39;--muted:#687b75;--line:#dcded7;--teal:#2d5952;--sand:#e9e4d7;--ochre:#a57643;--shadow:0 14px 40px rgba(36,60,57,.07);--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;font-size:15px;line-height:1.65}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--ochre);outline-offset:3px}
+[hidden]{display:none!important}.shell{max-width:1440px;margin:auto;padding:0 24px}
+.topbar{position:sticky;top:0;z-index:15;background:rgba(246,243,236,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);transition:box-shadow .2s var(--ease)}
+.topbar.compact{box-shadow:0 4px 22px rgba(36,60,57,.08)}.top-inner{min-height:75px;display:flex;align-items:center;gap:24px;transition:min-height .2s}.compact .top-inner{min-height:60px}
+.brand{font-family:Georgia,"Yu Mincho",serif;letter-spacing:.04em;font-size:24px;font-weight:600;white-space:nowrap}.brand i{font-weight:400;font-style:normal;color:var(--ochre)}
+.top-spacer{flex:1}.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.minibtn,.action{min-height:44px;border:1px solid var(--line);background:var(--cream);padding:9px 16px;border-radius:12px;color:var(--ink);transition:background .16s,transform .16s,border-color .16s}
+.minibtn:hover,.action:hover{border-color:#8aaba1;transform:translateY(-1px)}.action.primary{background:var(--teal);color:white;border-color:var(--teal)}.count{display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:23px;border-radius:99px;background:var(--sand);margin-left:6px;font-size:12px}
+.hero{padding:54px 0 35px}.hero h1{font-family:Georgia,"Yu Mincho",serif;font-weight:500;font-size:clamp(29px,4vw,53px);letter-spacing:-.025em;line-height:1.3;margin:10px 0 14px}
+.hero p{max-width:720px;color:var(--muted);margin:0}.demo-alert{margin-top:24px;border:1px solid #d3b58f;background:#fff8ee;color:#6b4c28;border-radius:14px;padding:13px 17px;font-size:13px}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;align-items:start;padding-bottom:110px}
+.panel{border:1px solid var(--line);background:var(--cream);border-radius:20px;box-shadow:var(--shadow)}
+.filters{padding:24px;position:sticky;top:90px}.filters h2{font-family:Georgia,"Yu Mincho",serif;font-size:21px;font-weight:500;margin:0 0 20px}
+.field{margin:0 0 21px}.field label,.field legend{font-size:12px;font-weight:700;display:block;margin-bottom:8px;letter-spacing:.03em}
+.field input[type=search],.field select{width:100%;height:44px;padding:8px 12px;border-radius:11px;border:1px solid var(--line);background:white;color:var(--ink)}
+fieldset{border:0;padding:0}.ranges{display:flex;justify-content:space-between;color:var(--teal);font-size:13px;font-weight:700;margin-bottom:6px}
+input[type=range]{accent-color:var(--teal);width:100%;height:24px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{min-height:38px;border:1px solid var(--line);padding:6px 12px;border-radius:999px;background:#fff;color:var(--ink);transition:background .14s,border-color .14s,transform .14s}
+.chip:hover{transform:translateY(-1px)}.chip[aria-pressed=true]{background:#deece6;border-color:#74968b;color:#20453e;font-weight:700}
+.reset{background:none;border:0;color:var(--teal);text-decoration:underline;min-height:44px;padding:0 2px}
+.workspace{min-width:0;padding:0;overflow:hidden}.workspace-head{padding:24px 28px 17px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.workspace h2{font-family:Georgia,"Yu Mincho",serif;font-size:26px;font-weight:500;line-height:1.4;margin:3px 0 0}
+.view-switch{display:grid;grid-template-columns:repeat(3,1fr);border-radius:12px;background:#edece4;padding:4px;position:relative;isolation:isolate}
+.switch-highlight{position:absolute;z-index:-1;left:4px;top:4px;width:calc((100% - 8px)/3);height:calc(100% - 8px);border-radius:9px;background:var(--cream);box-shadow:0 2px 8px rgba(20,50,45,.09);transform:translateX(calc(var(--tab,0)*100%));transition:transform .24s var(--ease)}
+.view-switch button{border:0;min-height:39px;min-width:66px;background:none;color:var(--muted);padding:4px 13px;font-size:13px;z-index:1;white-space:nowrap}
+.view-switch button[aria-selected=true]{color:var(--ink);font-weight:700}
+.timeline-banner{margin:0 28px 14px;background:#f2efe5;border-radius:14px;padding:20px 21px;overflow-x:auto}
+.timeline-track{min-width:390px;display:flex;justify-content:space-between;position:relative;gap:4px}
+.timeline-track:before{content:"";position:absolute;top:12px;left:30px;right:30px;height:2px;background:#b9c7be}
+.timepoint{position:relative;min-width:42px;text-align:center;font-size:12px;color:var(--muted)}
+.timepoint b{position:relative;z-index:1;display:block;margin:5px auto 10px;width:15px;height:15px;border:3px solid var(--teal);border-radius:100%;background:var(--paper)}
+.timepoint small{display:block;font-size:10px}.body-pad{padding:12px 28px 30px}
+.result-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.result-head h3{margin:0;font-size:16px}.hint{font-size:12px;color:var(--muted)}
+.record-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.record{display:block;text-align:left;min-height:175px;width:100%;padding:21px;border:1px solid var(--line);border-radius:15px;background:#fff;transition:transform .18s var(--ease),box-shadow .18s,border-color .18s;opacity:0;animation:entry .25s var(--ease) forwards;animation-delay:var(--delay,0ms)}
+.record:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(36,60,57,.09);border-color:#8ca69a}
+.record.selected{border-color:#48786e;box-shadow:inset 0 0 0 1px #48786e}
+.record .smallrow{display:flex;justify-content:space-between;gap:5px;align-items:center;font-size:12px;color:var(--muted)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;background:var(--sand);color:#625b4a;font-size:11px}
+.record h4{font-family:Georgia,"Yu Mincho",serif;font-size:24px;font-weight:500;margin:15px 0 4px}
+.record .sub{margin:0;color:var(--muted);font-size:12px}
+.record .linklike{margin-top:16px;font-size:12px;color:var(--teal);font-weight:700}
+@keyframes entry{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.empty{padding:40px 15px;border:1px dashed #b1bcb1;border-radius:14px;background:#fbfaf5;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:8px}
+.skeleton{height:175px;border-radius:15px;background:linear-gradient(105deg,#eeeee7 22%,#fafaf5 45%,#eeeee7 65%);background-size:200% 100%;animation:shimmer .95s linear infinite}
+@keyframes shimmer{to{background-position-x:-200%}}
+.compare-card{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0;padding:16px;border:1px solid var(--line);background:#fff;border-radius:13px}
+.source-card{padding:20px;margin-bottom:12px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+.source-card h3{margin:0 0 6px;font-size:16px}.source-card p{margin:0 0 7px;color:var(--muted);font-size:13px}.source-card a{font-size:13px;color:var(--teal);word-break:break-all}
+.backdrop{position:fixed;inset:0;background:rgba(21,39,36,.32);z-index:29;opacity:0;pointer-events:none;transition:opacity .23s}
+.backdrop.visible{opacity:1;pointer-events:auto}
+.drawer{position:fixed;inset:0 0 0 auto;width:min(500px,100%);background:var(--cream);z-index:30;box-shadow:-15px 0 35px rgba(0,0,0,.12);transform:translateX(102%);transition:transform .27s var(--ease);display:flex;flex-direction:column;visibility:hidden}
+.drawer.open{transform:translateX(0);visibility:visible}.drawer-top{padding:22px 26px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.drawer-body{padding:28px;overflow:auto}.drawer-body h2{font-family:Georgia,"Yu Mincho",serif;font-size:36px;font-weight:500;margin:6px 0 16px}
+.detail-box{padding:18px;background:#f5f2e9;border-radius:13px;margin:18px 0}.detail-box p{margin:0 0 9px}
+dl{display:grid;grid-template-columns:95px 1fr;gap:12px;margin:20px 0}dt{font-size:12px;color:var(--muted)}dd{margin:0}
+details{padding:15px 2px;border-top:1px solid var(--line)}summary{cursor:pointer;font-weight:700}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);padding:12px 20px;border-radius:12px;background:#234c44;color:white;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:var(--shadow);max-width:90%}.toast.show{opacity:1;transform:translate(-50%,0)}
+dialog{border:1px solid var(--line);border-radius:20px;padding:28px;width:min(530px,calc(100% - 32px));box-shadow:var(--shadow);background:var(--cream);color:var(--ink)}
+dialog::backdrop{background:rgba(27,47,42,.48)}dialog h2{font-family:Georgia,"Yu Mincho",serif;font-size:25px}
+.footer{padding:35px 0 50px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}
+@media(max-width:1000px){.layout{grid-template-columns:225px minmax(0,1fr)}.record-grid{grid-template-columns:1fr}.workspace-head{display:block}.view-switch{margin-top:15px;max-width:400px}}
+@media(max-width:720px){.shell{padding:0 14px}.top-inner{min-height:63px;gap:10px}.brand{font-size:20px}.top-inner .eyebrow{display:none}.hero{padding:28px 0}.layout{display:block}.filters{position:static;margin-bottom:14px;padding:16px}.filters h2{margin-bottom:0;font-size:17px}.filter-toggle{display:block!important}.filter-content{padding-top:17px}.filters[data-collapsed=true] .filter-content{display:none}
+.workspace-head{padding:19px}.timeline-banner{margin:0 17px 10px}.body-pad{padding:14px 17px 25px}.record-grid{grid-template-columns:1fr}.topbar.compact .top-inner{min-height:58px}.hero h1{font-size:30px}}
+.filter-toggle{display:none!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.record{opacity:1!important;transform:none!important}.skeleton{background:#efefe9}}
+</style>
+</head>
+<body>
+<header class="topbar" id="topbar"><div class="shell top-inner">
+<div class="brand">soba <i>/</i> price</div><span class="eyebrow">HISTORICAL PRICE ATLAS</span><div class="top-spacer"></div>
+<button class="minibtn" type="button" id="compareTop">比較 <span class="count" id="compareCount">0</span></button>
+<button class="minibtn" type="button" id="helpOpen">使い方</button>
+</div></header>
+<main class="shell">
+<section class="hero"><div class="eyebrow">THE PRICE OF EVERYDAY LIFE · UI MODEL 0.2</div>
+<h1>暮らしの値段を、<br>時代を越えて。</h1>
+<p>そば1杯から平安時代の米・布まで。史料を手がかりに価格と暮らしを探る、年代別・国別物価計算機の操作試作です。</p>
+<div class="demo-alert" role="note"><strong>画面操作のデモです。</strong> 下のカードはすべて架空のUI確認用データです。実在の価格・史料レコードを表さず、実際の価格計算も行いません。現在の検証済み観測は0件です。</div>
+</section>
+<div class="layout">
+<aside class="panel filters" id="filters">
+<button class="minibtn filter-toggle" id="filterToggle" type="button" aria-expanded="true" aria-controls="filterContent">絞り込み条件を開閉 ▾</button>
+<div class="filter-content" id="filterContent">
+<h2>探索の条件</h2>
+<div class="field"><label for="keyword">キーワード</label><input id="keyword" type="search" placeholder="品目・地域で検索"></div>
+<div class="field"><label for="region">国・地域</label><select id="region"><option value="all">すべて</option><option value="日本">日本</option><option value="英国">英国</option><option value="米国">米国</option></select></div>
+<div class="field"><div class="ranges"><label for="yearStart">開始年</label><span id="startLabel">700年</span></div><input type="range" id="yearStart" min="700" max="2030" step="10" value="700"><div class="ranges"><label for="yearEnd">終了年</label><span id="endLabel">2030年</span></div><input type="range" id="yearEnd" min="700" max="2030" step="10" value="2030"></div>
+<fieldset class="field"><legend>品目</legend><div class="chips" id="chips"></div></fieldset>
+<button class="reset" id="reset" type="button">条件をすべて解除</button>
+</div></aside>
+<section class="panel workspace" aria-label="探索結果">
+<div class="workspace-head"><div><div class="eyebrow">EXPLORE / MODEL DATA</div><h2 id="viewTitle">年代でたどる</h2></div>
+<div class="view-switch" id="switcher" role="tablist" aria-label="表示形式" style="--tab:0">
+<span class="switch-highlight" aria-hidden="true"></span>
+<button role="tab" type="button" data-mode="timeline" aria-selected="true">年表</button>
+<button role="tab" type="button" data-mode="compare" aria-selected="false">比較</button>
+<button role="tab" type="button" data-mode="sources" aria-selected="false">出典</button>
+</div></div>
+<section id="timelineView" role="tabpanel" aria-label="年表">
+<div class="timeline-banner"><div class="eyebrow">TIME SPAN</div><div class="timeline-track" aria-hidden="true">
+<div class="timepoint"><b></b>700<small>奈良</small></div><div class="timepoint"><b></b>1000<small>平安</small></div>
+<div class="timepoint"><b></b>1600<small>江戸</small></div><div class="timepoint"><b></b>1900<small>近代</small></div>
+<div class="timepoint"><b></b>2030<small>現代</small></div>
+</div></div>
+<div class="body-pad"><div class="result-head"><h3>探索サンプル <span class="hint" id="resultCount" aria-live="polite">7件</span></h3><button class="minibtn" id="skeletonDemo" type="button">読込演出を試す</button></div>
+<div class="record-grid" id="results"></div></div>
+</section>
+<section id="compareView" role="tabpanel" aria-label="比較" hidden><div class="body-pad">
+<h3>比較する候補</h3><p class="hint">架空のカードを2件以上選ぶと、比較表の配置を確認できます。価格・為替・購買力の欄は本番データ取得まで非表示です。</p>
+<div id="compareList"></div></div></section>
+<section id="sourcesView" role="tabpanel" aria-label="出典" hidden><div class="body-pad">
+<h3>史料への入口</h3><p class="hint">以下は調査先へのリンク例です。実測レコードの照合・再配布可否の判定はまだ終わっていません。</p>
+<div class="source-card"><h3>国立歴史民俗博物館</h3><p>古代・中世都市生活史（物価）データベース。年代・品目・取引種別を史料で確認する候補。</p><a target="_blank" rel="noopener noreferrer" href="https://www.rekihaku.ac.jp/doc/gaiyou/ktsb.html">公式概要を開く ↗</a></div>
+<div class="source-card"><h3>日本銀行・歴史統計</h3><p>近代以降の貨幣・為替に関する歴史系列。定義を確認してから取り込む。</p><a target="_blank" rel="noopener noreferrer" href="https://www.imes.boj.or.jp/jp/historical/hstat/hstat_r.html">歴史統計を開く ↗</a></div>
+<div class="source-card"><h3>検証済みデータ</h3><p>現時点では0件です。未検証の研究候補はここに混ぜません。</p></div>
+</div></section>
+</section></div>
+</main>
+<footer class="footer"><div class="shell">soba / price · UI exploration model v0.2 · GitHub: yama-books/soba-price · 実数値・為替換算は未実装</div></footer>
+<div class="backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="detailTitle" aria-hidden="true">
+<div class="drawer-top"><div class="eyebrow">SAMPLE DETAILS</div><button class="minibtn" id="closeDrawer" type="button">閉じる ×</button></div>
+<div class="drawer-body"><div class="eyebrow">FICTIONAL DATA FOR UI TEST</div><h2 id="detailTitle"></h2>
+<p id="detailSummary"></p>
+<dl><dt>年代</dt><dd id="detailYear"></dd><dt>地域</dt><dd id="detailPlace"></dd><dt>史料</dt><dd>架空のモデル情報・実在する史料なし</dd><dt>価格</dt><dd>未設定（史料未検証）</dd><dt>現代円換算</dt><dd>換算不可（入力・根拠データなし）</dd></dl>
+<div class="detail-box"><strong>データの信頼性</strong><p>このカードはレイアウト・動作確認だけを目的とする完全なモックです。価格を推測して埋めません。</p></div>
+<details><summary>将来ここに表示するもの</summary><p>原史料名・巻頁・取引種別・原単位・確度S/C・出典URL・換算方法・使用したレートIDを明示します。</p></details>
+<button class="action primary" id="addCompare" type="button">比較に追加</button>
+</div></aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="help"><div class="eyebrow">HELP / BEFORE YOU START</div><h2>この画面でできること</h2>
+<p>年代や地域・品目を選び、架空のカードを開き、比較用リストに追加できます。これはUIアニメーションと画面構成を確かめるための試作です。</p>
+<p><strong>実際の価格・検証済みの史料・為替計算は入っていません。</strong> 公開用の学術データが整備できた段階で差し替えます。</p><button class="action primary" type="button" id="helpClose">画面に戻る</button></dialog>
+<script>
+(function(){
+'use strict';
+const mocks=[
+{id:'MOCK-01',year:760,country:'日本',place:'奈良',item:'米',era:'奈良',desc:'古代の穀物取引を想定したUI用の架空レコード'},
+{id:'MOCK-02',year:990,country:'日本',place:'平安京',item:'布',era:'平安',desc:'布の単位・取引種別の表示を想定した架空レコード'},
+{id:'MOCK-03',year:1450,country:'日本',place:'京都',item:'米',era:'室町',desc:'都市史料を表示するための架空レコード'},
+{id:'MOCK-04',year:1760,country:'日本',place:'江戸',item:'そば',era:'江戸',desc:'そばの価格探索を模した架空レコード'},
+{id:'MOCK-05',year:1890,country:'日本',place:'東京',item:'賃金',era:'明治',desc:'必要労働日数の比較欄を想定した架空レコード'},
+{id:'MOCK-06',year:1950,country:'英国',place:'ロンドン',item:'パン',era:'現代',desc:'国別比較の配置を検討するための架空レコード'},
+{id:'MOCK-07',year:2020,country:'米国',place:'ニューヨーク',item:'パン',era:'現代',desc:'現代の異なる国の画面表示を模した架空レコード'}
+];
+const state={items:new Set(),selected:null,comp:new Set(),mode:'timeline',filterCollapsed:false};
+const $=id=>document.getElementById(id);
+const items=['米','そば','布','賃金','パン'];
+let toastTimer;
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function notify(message){const t=$('toast');t.textContent=message;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400)}
+function elem(tag,cls,txt){const el=document.createElement(tag);if(cls)el.className=cls;if(txt!==undefined)el.textContent=txt;return el}
+function controls(){
+ const host=$('chips');
+ items.forEach(item=>{const b=elem('button','chip',item);b.type='button';b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>{state.items.has(item)?state.items.delete(item):state.items.add(item);b.setAttribute('aria-pressed',String(state.items.has(item)));render()});host.append(b)});
+ $('yearStart').addEventListener('input',()=>{if(+ $('yearStart').value>+ $('yearEnd').value){$('yearEnd').value=$('yearStart').value}render()});
+ $('yearEnd').addEventListener('input',()=>{if(+ $('yearEnd').value<+ $('yearStart').value){$('yearStart').value=$('yearEnd').value}render()});
+ ['keyword','region'].forEach(id=>$(id).addEventListener(id==='keyword'?'input':'change',render));
+ $('reset').addEventListener('click',()=>{state.items.clear();$('chips').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed','false'));$('yearStart').value='700';$('yearEnd').value='2030';$('region').value='all';$('keyword').value='';render();notify('条件をリセットしました')});
+ $('switcher').querySelectorAll('[role=tab]').forEach((b,i)=>b.addEventListener('click',()=>setMode(b.dataset.mode,i)));
+ $('compareTop').addEventListener('click',()=>setMode('compare',1));
+ $('helpOpen').addEventListener('click',()=>$('help').showModal());
+ $('helpClose').addEventListener('click',()=>$('help').close());
+ $('help').addEventListener('click',e=>{if(e.target===$('help'))$('help').close()});
+ $('backdrop').addEventListener('click',closeDetails);
+ $('closeDrawer').addEventListener('click',closeDetails);
+ $('addCompare').addEventListener('click',()=>{if(!state.selected)return;state.comp.add(state.selected.id);$('compareCount').textContent=state.comp.size;notify('比較に追加しました（架空データ）');renderCompare()});
+ $('skeletonDemo').addEventListener('click',()=>{const grid=$('results');grid.replaceChildren();for(let i=0;i<4;i++)grid.append(elem('div','skeleton'));$('skeletonDemo').disabled=true;setTimeout(()=>{render();$('skeletonDemo').disabled=false;notify('表示演出のテスト完了')},550)});
+ $('filterToggle').addEventListener('click',()=>{state.filterCollapsed=!state.filterCollapsed;$('filters').dataset.collapsed=String(state.filterCollapsed);$('filterToggle').setAttribute('aria-expanded',String(!state.filterCollapsed))});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('drawer').classList.contains('open'))closeDetails()});
+ window.addEventListener('scroll',()=>{$('topbar').classList.toggle('compact',window.scrollY>30)},{passive:true});
+}
+function getFiltered(){
+ const q=$('keyword').value.trim().toLocaleLowerCase('ja');
+ const start=+$('yearStart').value,end=+$('yearEnd').value,region=$('region').value;
+ return mocks.filter(r=>r.year>=start&&r.year<=end&&(region==='all'||r.country===region)&&(!state.items.size||state.items.has(r.item))&&(!q||(r.item+r.place+r.country+r.era).toLocaleLowerCase('ja').includes(q)));
+}
+function render(){
+ $('startLabel').textContent=$('yearStart').value+'年';$('endLabel').textContent=$('yearEnd').value+'年';
+ const data=getFiltered(),grid=$('results');$('resultCount').textContent=data.length+'件 / 架空データ';
+ grid.replaceChildren();
+ if(!data.length){const empty=elem('div','empty');empty.style.gridColumn='1/-1';empty.append(elem('strong','', '条件に一致する架空カードはありません'));empty.append(elem('p','', '品目・地域・年代を変更するか、条件をリセットしてください。'));const btn=elem('button','action','条件をリセット');btn.type='button';btn.addEventListener('click',()=>$('reset').click());empty.append(btn);grid.append(empty);return}
+ data.forEach((r,i)=>{const b=elem('button','record'+(state.selected&&state.selected.id===r.id?' selected':''));b.type='button';b.style.setProperty('--delay',reduced?'0ms':Math.min(i*40,220)+'ms');b.setAttribute('aria-label',r.year+'年 '+r.place+' '+r.item+'（架空データ）の詳細を表示');
+ const top=elem('div','smallrow');top.append(elem('span','',r.era+' · '+r.year+'年'));top.append(elem('span','pill','架空 MOCK'));
+ b.append(top,elem('h4','',r.item),elem('p','sub',r.country+' / '+r.place),elem('p','linklike','史料情報の配置を見る ↗'));
+ b.addEventListener('click',()=>openDetails(r));grid.append(b)});
+}
+function setMode(mode,index){
+ state.mode=mode;$('switcher').style.setProperty('--tab',index);
+ $('switcher').querySelectorAll('[role=tab]').forEach((b,i)=>b.setAttribute('aria-selected',String(i===index)));
+ [['timeline','timelineView','年代でたどる'],['compare','compareView','比較する'],['sources','sourcesView','出典をたどる']].forEach(([key,id,title])=>{ $(id).hidden=key!==mode;if(key===mode)$('viewTitle').textContent=title});
+ if(mode==='compare')renderCompare();
+ if(window.innerWidth<700)$('switcher').scrollIntoView({block:'nearest',behavior:reduced?'instant':'smooth'});
+}
+let lastFocus=null;
+function openDetails(r){lastFocus=document.activeElement;state.selected=r;$('detailTitle').textContent=r.item+' ／ '+r.year+'年';$('detailSummary').textContent=r.desc;$('detailYear').textContent=r.era+'・'+r.year+'年';$('detailPlace').textContent=r.country+' / '+r.place;
+ $('drawer').classList.add('open');$('drawer').setAttribute('aria-hidden','false');$('backdrop').classList.add('visible');document.body.style.overflow='hidden';
+ document.querySelectorAll('.record').forEach(b=>b.classList.toggle('selected',b.getAttribute('aria-label').includes(r.year+'年 '+r.place+' '+r.item)));
+ $('closeDrawer').focus({preventScroll:true});
+}
+function closeDetails(){if(!$('drawer').classList.contains('open'))return;$('drawer').classList.remove('open');$('drawer').setAttribute('aria-hidden','true');$('backdrop').classList.remove('visible');document.body.style.overflow='';if(lastFocus&&lastFocus.isConnected)lastFocus.focus({preventScroll:true});}
+function renderCompare(){
+ const host=$('compareList');host.replaceChildren();
+ const records=mocks.filter(r=>state.comp.has(r.id));
+ if(!records.length){const e=elem('div','empty');e.append(elem('strong','','比較する架空カードはまだありません'));e.append(elem('p','','年表でカードを開き、比較に追加してみてください。'));const b=elem('button','action','年表に戻る');b.addEventListener('click',()=>setMode('timeline',0));e.append(b);host.append(e);return}
+ records.forEach(r=>{const row=elem('div','compare-card');const a=elem('div');a.append(elem('strong','',r.year+'年・'+r.item),elem('div','hint',r.place+' / 価格なし・換算不可・架空データ'));const remove=elem('button','minibtn','削除');remove.type='button';remove.setAttribute('aria-label',r.year+'年 '+r.item+'を比較から削除');remove.addEventListener('click',()=>{state.comp.delete(r.id);$('compareCount').textContent=state.comp.size;renderCompare();notify('比較から削除しました')});row.append(a,remove);host.append(row)});
+ if(records.length>1)host.append(elem('p','hint','※ 配置のみの比較です。データが未整備のため数値・円換算は行いません。'));
+}
+controls();render();renderCompare();
+})();
+</script>
+</body></html>
