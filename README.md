@@ -4,8 +4,8 @@
 
 「江戸のそば1杯はいくら？」を入口にし、そばのない時代には米・布・塩・労働賃金等の記録を参照します。価格の記録と円換算上の推定を分けて表示し、原資料をたどれる設計とします。
 
-> **現在地：M0 基礎設計・史料予備調査（2026-10-17）**
-> 歴博DBの概要・検索入口を確認し、奈良・平安の価格・賃金につながる研究リード6件を登録しました。原史料への直接照合と歴史価格レコードの本格収集・検証、アプリ実装・CI・Web公開・実機検証は未実施です。
+> **現在地：M0史料予備調査 ＋ M1 UI操作試作（2026-10-17）**
+> 奈良・平安の研究リード6件を登録。画面モデル図・20件のモーション案と単一HTMLの動くUI試作を追加しました。**UIは架空データのみ**。史料レコードの本格収集・検証、価格換算、CI・Web配信・実機ブラウザ検証は未実施です。
 
 ## はじめに読む文書
 
@@ -17,8 +17,17 @@
 | [sources/catalog.csv](sources/catalog.csv) | 出典候補16件。価格観測値ではありません |
 | [sources/price_leads.csv](sources/price_leads.csv) | 奈良・平安の価格・賃金の手掛かり6件。原史料未照合・アプリ表示不可 |
 | [docs/RESEARCH_LOG_20261017.md](docs/RESEARCH_LOG_20261017.md) | 2026-10-17の調査結果と残課題 |
+| [docs/UI_WIREFRAME.md](docs/UI_WIREFRAME.md) | PC・スマホの画面モデル図と状態遷移 |
+| [docs/UI_MOTION_PLAN.md](docs/UI_MOTION_PLAN.md) | Motion Promptを参考にした20件の候補と採用優先度 |
+| [docs/IMPLEMENTATION_ROADMAP.md](docs/IMPLEMENTATION_ROADMAP.md) | UI・史料取得・為替換算の分離工程 |
+| [docs/UI_TEST_PLAN.md](docs/UI_TEST_PLAN.md) | 実機とキーボード操作のテスト計画 |
+| [app/prototype/index.html](app/prototype/index.html) | 7件の架空カードで操作する単一HTML試作（未公開・実機未検証） |
 | [docs/STATUS.md](docs/STATUS.md) | 現在の作業状態と次の一手 |
 | [AGENTS.md](AGENTS.md) | ChatGPT・Codex・Claude Code等に共通の作業ルール |
+
+## UI操作試作 v0.2
+
+[app/prototype/index.html](app/prototype/index.html) に外部ライブラリ不要の1ファイル試作を追加しています。GitHubのRaw / Download raw fileからHTMLを取得してブラウザで開けば、年代・国・品目の絞り込み、年表/比較/出典の切替、詳細ドロワー、比較追加、空表示とモーションを試せます。現時点でGitHub Pages等の公開処理は行っていません。数値や史料は架空UIのため**歴史物価の確認資料には使えません**。
 
 ## フォルダ構成
 
