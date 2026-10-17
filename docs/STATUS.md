@@ -15,4 +15,15 @@
 - 根拠：[`docs/RESEARCH_LOG_20261017.md`](RESEARCH_LOG_20261017.md)、[`sources/price_leads.csv`](../sources/price_leads.csv)、[`sources/catalog.csv`](../sources/catalog.csv)
 - 次の作業：歴博DBの利用条件と検索結果件数を実測 → 少数レコードの原資料照合 → 元の単位・用途別に整理 → 公開可否を確認してから `data/verified/` に登録。
 
+
+## 2026-10-17 追加：UI v0.2
+
+- 画面構成：[UI_WIREFRAME.md](UI_WIREFRAME.md)（PC・モバイル、状態図）
+- モーション候補：[UI_MOTION_PLAN.md](UI_MOTION_PLAN.md)（20件、A/B/C、公式Motion PromptのIDと独自補完を区分）
+- 開発計画：[IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md) / [UI_TEST_PLAN.md](UI_TEST_PLAN.md)
+- ソース：[app/prototype/index.html](../app/prototype/index.html)（外部依存なしの架空カード7件によるフィルタ、比較、詳細、タブ、トースト、スケルトンのUIデモ）
+- 保存・静的確認：GitHub mainへ保存し、HTMLの読み戻し、JavaScriptの構文パース、主要UIコード・縮小モーション対応の存在を確認。スマホ用フィルターCSSと詳細内フォーカス移動の実装を修正。
+- 未確認：実際のPC/スマホブラウザ操作、アクセシビリティ検証、CI、Webデプロイ。価格記録・換算値は実装していない。
+- 次の作業：試作UIをブラウザ実機でテスト（docs/UI_TEST_PLAN.md）→ D0歴博DBの史料収集・権利確認 → D1検証済みレコードを接続。
+
 このファイルは意味のある進捗変化時だけ更新する。未確認の内容を確認済みとしない。
